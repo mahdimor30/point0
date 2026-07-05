@@ -12,7 +12,7 @@ const result = z
     SERVER_PORT: isProdNodeEnv ? z.string().optional() : z.string().min(1),
     CLIENT_PORT: isProdNodeEnv ? z.string().optional() : z.string().min(1),
     PORT: z.string().optional(),
-    DATABASE_URL: z.string().min(1),
+    // DATABASE_URL: z.string().min(1),
     OPENAPI_CREDENTIALS: z.string().min(1),
   })
   .safeParse(process.env)
