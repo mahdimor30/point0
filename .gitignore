@@ -1,0 +1,11 @@
+# general
+.DS_Store
+.idea
+.vscode
+.cursor
+
+# custom
+.env*
+src/generated
+*.db
+node_modules
