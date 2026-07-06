@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    container_name: bun-app
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres:5432/mydb
+      NODE_ENV: production
+
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17
+
+    container_name: postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -12,6 +12,7 @@
         "@point0/basic-auth": "^0.1.12",
         "@point0/compiler": "^0.1.12",
         "@point0/core": "^0.1.12",
+        "@point0/cors": "^0.1.12",
         "@point0/engine": "^0.1.12",
         "@point0/openapi": "^0.1.12",
         "@point0/react-dom": "^0.1.12",
@@ -430,6 +431,8 @@
     "@point0/compiler": ["@point0/compiler@0.1.12", "", { "dependencies": { "@babel/core": "^7.29.7", "@babel/generator": "^7.29.7", "@babel/parser": "^7.29.7", "@babel/preset-typescript": "^7.29.7", "@babel/traverse": "^7.29.7", "@babel/types": "^7.29.7", "@jridgewell/remapping": "^2.3.5", "@mdx-js/mdx": "^3.1.1", "@svgr/core": "^8.1.0", "@svgr/plugin-jsx": "^8.1.0", "babel-plugin-minify-dead-code-elimination": "^0.5.2", "babel-plugin-minify-guarded-expressions": "^0.4.4", "fast-glob": "^3.3.2", "minimatch": "^10.0.1", "remark-frontmatter": "^5.0.0", "remark-mdx-frontmatter": "^5.2.0", "safe-stable-stringify": "^2.5.0" }, "peerDependencies": { "@1gr14/flat": "^0.1.0", "@1gr14/route0": "^0.1.0", "@point0/core": "^0.1.12", "typescript": "^6.0.3" } }, "sha512-dR1HK8owW136dy4M0YlNDhVkt2BVwdW0VgH2XG7qO0K+AnzuVckzkZNtE0cEEmcqO0lrUs3JSc/ZqUX9DgPmfg=="],
 
     "@point0/core": ["@point0/core@0.1.12", "", { "dependencies": { "@standard-schema/spec": "^1.1.0", "safe-stable-stringify": "^2.5.0", "use-context-selector": "^2.0.0" }, "peerDependencies": { "@1gr14/flat": "^0.1.0", "@1gr14/route0": "^0.1.0", "@sinclair/typebox": "^0.34.49", "@sodaru/yup-to-json-schema": "^2.0.1", "@tanstack/react-query": "^5.101.0", "@unhead/react": "^3.1.1", "@valibot/to-json-schema": "^1.7.0", "arktype": "^2.2.0", "openapi-types": "^12.0.0", "react": "^19.2.7", "superstruct": "^2.0.2", "unhead": "^3.1.1", "valibot": "^1.4.1", "zod": "^4.4.3" }, "optionalPeers": ["@sinclair/typebox", "@sodaru/yup-to-json-schema", "@valibot/to-json-schema", "arktype", "superstruct", "valibot", "zod"] }, "sha512-oM76X/6AgE3rn7RBw6+BZYGFApFb2Szo1Ie/wk7gdl3PxlEatp4wsUXUsUVgIa2bTZl80cwbCwlU3JFPF6TlAg=="],
+
+    "@point0/cors": ["@point0/cors@0.1.12", "", { "peerDependencies": { "@point0/core": "^0.1.12", "@point0/engine": "^0.1.12" } }, "sha512-NWSEaRMj+q4qIPRWO8cHG86JtvRmFNOZUbGV4rAadsSQSn6u8kqDGgYEdLCrQyfhohJTkMfAy4UTQXxwlGNvtQ=="],
 
     "@point0/docs": ["@point0/docs@0.1.12", "", { "dependencies": { "@huggingface/transformers": "^4.2.0", "@modelcontextprotocol/sdk": "^1.29.0", "@orama/orama": "^3.1.18", "gray-matter": "^4.0.3", "zod": "^4.4.3" }, "bin": { "point0-docs-mcp": "dist/mcp.js" } }, "sha512-/wS6Kh4FtZjsD/E2a50bAcfR3N9eS9U4VLxidhQK2ahapWmaKXevCkx71xrKvXypPQMuOD4z/r9k0s8WQHUWWg=="],
 
