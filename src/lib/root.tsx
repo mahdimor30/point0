@@ -1,11 +1,12 @@
-import { basicAuth } from '@point0/basic-auth'
-import { ClientOnly, Point0 } from '@point0/core'
-import { zodSchemaHelper } from '@point0/core/schema/zod'
-import { openapi } from '@point0/openapi'
-import superjson from 'superjson'
-import { AppError } from '@/lib/error.js'
-import { serverEnv } from '@/lib/env/server.js'
-import { sharedEnv } from '@/lib/env/shared.js'
+import { basicAuth } from "@point0/basic-auth";
+import { ClientOnly, Point0 } from "@point0/core";
+import { zodSchemaHelper } from "@point0/core/schema/zod";
+import { openapi } from "@point0/openapi";
+import superjson from "superjson";
+import { AppError } from "@/lib/error.js";
+import { serverEnv } from "@/lib/env/server.js";
+import { sharedEnv } from "@/lib/env/shared.js";
+import { authServer } from "./auth/server";
 
 export const root = Point0.lets
   .root()
@@ -14,8 +15,8 @@ export const root = Point0.lets
   .transformer(superjson)
   .schemaHelper(zodSchemaHelper())
   .errorClass(AppError)
-  .prefetchPageOnNavigate('pageDehydratedStateAndClientQuery')
-  .prefetchPageOnLinkHover('pageDehydratedStateAndClientQuery')
+  .prefetchPageOnNavigate("pageDehydratedStateAndClientQuery")
+  .prefetchPageOnLinkHover("pageDehydratedStateAndClientQuery")
   .queryOptions({
     retry: false,
     retryOnMount: false,
@@ -26,32 +27,36 @@ export const root = Point0.lets
     refetchIntervalInBackground: false,
     staleTime: 1 * 60 * 1000, // 1 minute
   })
-  .on('error', ({ side, name, error, meta }) => {
-    console.error({ ...meta, side, name, error })
+  .on("error", ({ side, name, error, meta }) => {
+    console.error({ ...meta, side, name, error });
   })
-  .head('global', ({ loading, error }) => {
+  .head("global", ({ loading, error }) => {
     return {
-      ...(loading ? { title: 'Loading...' } : {}),
+      ...(loading ? { title: "Loading..." } : {}),
       ...(error ? { title: error.message } : {}),
-      titleTemplate: '%s | My App',
-      htmlAttrs: { lang: 'en' },
-    }
+      titleTemplate: "%s | My App",
+      htmlAttrs: { lang: "en" },
+    };
   })
   .loading(() => {
     return (
       <div className="mx-auto max-w-3xl">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm font-medium text-slate-500">Please wait</p>
-          <p className="mt-1 text-lg font-semibold text-slate-900">Loading...</p>
+          <p className="mt-1 text-lg font-semibold text-slate-900">
+            Loading...
+          </p>
         </div>
       </div>
-    )
+    );
   })
   .error(({ error }) => {
     return (
       <div className="mx-auto max-w-3xl space-y-4">
         <div className="rounded-xl border border-red-200 bg-red-50 p-5 text-red-900 shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-wide text-red-700">Something went wrong</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-red-700">
+            Something went wrong
+          </p>
           <p className="mt-2 text-base font-medium">Error: {error.message}</p>
         </div>
         <ClientOnly>
@@ -60,15 +65,20 @@ export const root = Point0.lets
           </pre>
         </ClientOnly>
       </div>
-    )
+    );
   })
   .middleware(
+    "/api/auth/*",
+    async ({ request }) => await authServer.handler(request.original),
+  )
+
+  .middleware(
     openapi({
-      route: '/openapi.json',
-      scalar: '/scalar',
-      swagger: '/swagger',
-      filter: 'all',
-      before: basicAuth({ users: serverEnv.OPENAPI_CREDENTIALS }),
+      route: "/openapi.json",
+      scalar: "/scalar",
+      swagger: "/swagger",
+      filter: "all",
+      // before: basicAuth({ users: serverEnv.OPENAPI_CREDENTIALS }),
     }),
   )
-  .root()
+  .root();

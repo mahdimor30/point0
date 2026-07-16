@@ -8,6 +8,13 @@
       "when": 1783271166477,
       "tag": "0000_strange_bug",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783521724001,
+      "tag": "0001_curvy_miracleman",
+      "breakpoints": true
     }
   ]
 }

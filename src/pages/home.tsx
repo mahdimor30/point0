@@ -1,6 +1,6 @@
 import { generalLayout } from "@/layouts/general.js";
 import { db } from "@/lib/db";
-import { users } from "@/lib/db/schema";
+import { user } from "@/lib/db/schema";
 import { Link } from "@/lib/navigation";
 import { root } from "@/lib/root";
 import { log } from "@point0/core";
@@ -10,8 +10,8 @@ import z from "zod";
 export const listUser = root.lets
   .query()
   .loader(async () => {
-    const users = await db.query.users.findMany();
-    console.log(users);
+    const users = await db.query.user.findMany();
+    console.log(user);
 
     return {
       users,

@@ -1,8 +1,8 @@
-import { sharedEnvShape } from '@/lib/env/shared-shape'
-import '@point0/core/server-only'
-import { z } from 'zod'
+import { sharedEnvShape } from "@/lib/env/shared-shape";
+import "@point0/core/server-only";
+import { z } from "zod";
 
-const isProdNodeEnv = process.env.NODE_ENV === 'production'
+const isProdNodeEnv = process.env.NODE_ENV === "production";
 
 const result = z
   .object({
@@ -14,15 +14,19 @@ const result = z
     PORT: z.string().optional(),
     DATABASE_URL: z.string().min(1),
     OPENAPI_CREDENTIALS: z.string().min(1),
+    BETTER_AUTH_SECRET: z.string().min(1),
+    BETTER_AUTH_URL: z.string().min(1),
   })
-  .safeParse(process.env)
+  .safeParse(process.env);
 
 if (!result.success) {
-  throw new Error('Invalid server environment variables', { cause: result.error })
+  throw new Error("Invalid server environment variables", {
+    cause: result.error,
+  });
 }
 
 /**
  * Server-side env (secrets + server-only config). Read server config via `serverEnv` — never `process.env` directly in
  * features; it's schema-validated and typed. To add a var: extend the schema above and add it to `.env`.
  */
-export const serverEnv = { ...result.data }
+export const serverEnv = { ...result.data };
