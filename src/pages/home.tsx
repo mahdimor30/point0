@@ -1,4 +1,4 @@
-import { generalLayout } from "@/layouts/general.js";
+import { generalLayout } from "@/layouts/general";
 import { db } from "@/lib/db";
 import { user } from "@/lib/db/schema";
 import { Link } from "@/lib/navigation";
@@ -27,7 +27,7 @@ export const addUser = root.lets
     }),
   )
   .loader(async ({ input }) => {
-    const newUser = await db.insert(users).values({
+    const newUser = await db.insert(user).values({
       name: input.name,
     });
     return {

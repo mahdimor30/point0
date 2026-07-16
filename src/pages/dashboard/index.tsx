@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { generalLayout } from "@/layouts/general";
+import { dashboardLayout } from "@/layouts/dashboard";
 import { authorizedOnlyPlugin } from "@/lib/auth/plugins";
 import { getDashboardStatsQuery } from "@/lib/dashboard/api";
 import { Users, UserPlus, Activity } from "lucide-react";
@@ -25,7 +25,7 @@ const statCards = [
   },
 ] as const;
 
-export const dashboardHomePage = generalLayout
+export const dashboardHomePage = dashboardLayout
   .lets("page", "Dashboard", "/dashboard")
   .use(authorizedOnlyPlugin)
   .with(getDashboardStatsQuery)

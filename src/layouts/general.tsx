@@ -1,104 +1,107 @@
-import { authClient } from "@/lib/auth/client";
-import { authorizedOnlyPlugin } from "@/lib/auth/plugins";
-import { getDashboardStatsQuery } from "@/lib/dashboard/api";
-import { Link, navigate, NavLink } from "@/lib/navigation";
+import { routes } from "@/generated/point0/routes";
+import { mePlugin } from "@/lib/auth/plugins";
+import { NavLink } from "@/lib/navigation";
 import { root } from "@/lib/root";
-import { cn } from "@/lib/utils";
-import { useIsNavigating, useLocation } from "@point0/core/navigation";
-
-import {
-  LayoutDashboard,
-  Users,
-  Settings,
-  LogOut,
-  Package,
-} from "lucide-react";
-
-const navItems = [
-  { to: "dashboardHome", label: "نمای کلی", icon: LayoutDashboard },
-  { to: "dashboardUsers", label: "کاربران", icon: Users },
-  { to: "dashboardContent", label: "محتوا", icon: Package },
-  { to: "dashboardSettings", label: "تنظیمات", icon: Settings },
-] as const;
+import { useIsNavigating } from "@point0/core/navigation";
 
 export const generalLayout = root
-  .lets("layout", "generalLayout")
-  .use(authorizedOnlyPlugin)
+  .lets("layout", "general")
+  .use(mePlugin)
   .layout(({ children, props: { me } }) => {
-    const location = useLocation();
-
-    const signOut = async () => {
-      await authClient.signOut();
-      await navigate("signIn");
-    };
-
+    const isNavigating = useIsNavigating();
     return (
-      <div className="flex min-h-screen bg-slate-50" dir="rtl">
-        {/* سایدبار */}
-        <aside className="flex w-64 flex-col border-l border-slate-200 bg-white">
-          <div className="flex items-center gap-2 px-6 py-5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 font-mono text-xs font-bold text-white">
-              A
-            </div>
-            <span className="font-semibold text-slate-900">پنل ادمین</span>
-          </div>
-
-          <nav className="flex-1 space-y-1 px-3">
-            {navItems.map(({ to, label, icon: Icon }) => {
-              const active = location.route === to;
-              return (
-                <Link
-                  key={to}
-                  to={to}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                    active
-                      ? "bg-indigo-50 text-indigo-700 border-r-2 border-indigo-600"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
-                  )}
+      <div
+        className="min-h-screen bg-linear-to-b from-slate-100 via-slate-50 to-blue-50 text-slate-800 transition-opacity duration-300 ease-in-out"
+        style={{ opacity: isNavigating ? 0.6 : 1 }}
+      >
+        <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+          <header className="mb-6 rounded-2xl border border-white/70 bg-white/80 px-6 py-5 shadow-sm backdrop-blur">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+                <NavLink
+                  className="hover:text-blue-700"
+                  exactClassName="pointer-events-none"
+                  route="home"
                 >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          <div className="border-t border-slate-200 p-3">
-            <button
-              onClick={signOut}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"
-            >
-              <LogOut className="h-4 w-4" />
-              خروج از حساب
-            </button>
-          </div>
-        </aside>
-
-        {/* محتوا */}
-        <div className="flex flex-1 flex-col">
-          <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-8">
-            <div className="text-sm text-slate-500">
-              {new Date().toLocaleDateString("fa-IR", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-              })}
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-left">
-                <p className="text-sm font-medium text-slate-900">
-                  {me.user.name}
-                </p>
-                <p className="text-xs text-slate-500">{me.user.email}</p>
-              </div>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-medium text-slate-600">
-                {me.user.name.slice(0, 1)}
-              </div>
+                  IdeaNick
+                </NavLink>
+              </h1>
+              <nav>
+                <ul className="flex flex-wrap items-center gap-2">
+                  <li>
+                    <NavLink
+                      exactClassName="pointer-events-none text-slate-300!"
+                      className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      route="home"
+                    >
+                      Home
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exactClassName="pointer-events-none text-slate-300!"
+                      className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      route="about"
+                    >
+                      About
+                    </NavLink>
+                  </li>
+                  {/* <li>
+                    <NavLink
+                      exactClassName="pointer-events-none text-slate-300!"
+                      className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      route="ideaList"
+                    >
+                      Browse Ideas
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exactClassName="pointer-events-none text-slate-300!"
+                      className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                      route="ideaCreate"
+                    >
+                      Create Idea
+                    </NavLink>
+                  </li>
+                  {me ? (
+                    <>
+                      <li>
+                        <NavLink
+                          exactClassName="pointer-events-none text-slate-300!"
+                          className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                          route="profile"
+                        >
+                          Profile
+                        </NavLink>
+                      </li>
+                      <li>
+                        <button
+                          className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                          onClick={() => signOutClient()}
+                        >
+                          Sign Out
+                        </button>
+                      </li>
+                    </>
+                  ) : (
+                    <li>
+                      <NavLink
+                        exactClassName="pointer-events-none text-slate-300!"
+                        className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+                        route="signIn"
+                      >
+                        Sign In
+                      </NavLink>
+                    </li>
+                  )} */}
+                </ul>
+              </nav>
             </div>
           </header>
-
-          <main className="flex-1 p-8">{children}</main>
+          <main className="rounded-2xl border border-white/70 bg-white/80 p-6 shadow-sm backdrop-blur">
+            {children}
+          </main>
         </div>
       </div>
     );

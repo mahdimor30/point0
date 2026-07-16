@@ -1,4 +1,4 @@
-import { generalLayout } from "@/layouts/general.js";
+import { generalLayout } from "@/layouts/general";
 import { Link } from "@/lib/navigation";
 import { root } from "@/lib/root";
 
